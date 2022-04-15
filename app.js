@@ -37,7 +37,7 @@ const writeToLog = (log, text) => {
 	const logFile = `./[${new Date().toISOString()}]_log.txt`;
 
 	//create log file
-	if (!fd.existsSync(logFile)) fd.writeFileSync(logFile, "");
+	if (!fd.existsSync(logFile)) fd.openSync(logFile, "w");
 
 	let start = 0;
 	let end = -1;
@@ -56,7 +56,7 @@ const writeToLog = (log, text) => {
 		end = parseInt($(selectorLastPage).text().slice(2));
 	} else if (args.length == 1) {
 		start = parseInt(args[0]) - 1;
-		end = start + 1;
+		end = start;
 	} else if (args.length == 2) {
 		start = parseInt(args[0]) - 1;
 		end = parseInt(args[1]) - 1;
