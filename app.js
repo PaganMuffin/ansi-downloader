@@ -1,6 +1,5 @@
 const { default: axios } = require("axios");
 const cheerio = require("cheerio");
-const FormData = require("form-data");
 const fd = require("fs");
 const path = require("path");
 const fetchANSI = (page = 0) => {
