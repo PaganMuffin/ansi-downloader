@@ -174,7 +174,7 @@ const writeToLog = (log, text) => {
 							const filename =
 								response.headers["content-disposition"].split("filename=")[1];
 							const writer = fd.createWriteStream(
-								`./subs/[${info.id}]_${filename}.zip`
+								`./subs/[${info.id}]_${filename}`
 							);
 							return new Promise((resolve, reject) => {
 								response.data.pipe(writer);
