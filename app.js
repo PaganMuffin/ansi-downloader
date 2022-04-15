@@ -24,8 +24,8 @@ const fetchANSI = (page = 0) => {
 	);
 };
 
-const writeToLog = (text) => {
-	fd.appendFileSync("log.txt", `[${new Date().toISOString()}] ` + text + "\n");
+const writeToLog = (log, text) => {
+	fd.appendFileSync(log, `[${new Date().toISOString()}] ` + text + "\n");
 };
 
 (async () => {
@@ -34,8 +34,10 @@ const writeToLog = (text) => {
 
 	if (!fd.existsSync("./info")) fd.mkdirSync("./info");
 
+	const logFile = `./[${new Date().toISOString()}]_log.txt`;
+
 	//create log file
-	if (!fd.existsSync("./log.txt")) fd.writeFileSync("./log.txt", "");
+	if (!fd.existsSync(logFile)) fd.writeFileSync(logFile, "");
 
 	let start = 0;
 	let end = -1;
@@ -62,7 +64,7 @@ const writeToLog = (text) => {
 	let ansiSciagnij = null;
 	for (let i = start; i <= end; i++) {
 		console.log(`Strona ${i + 1}`);
-		writeToLog(`Strona ${i + 1}`);
+		writeToLog(logFile, `Strona ${i + 1}`);
 		const f = await fetchANSI(i);
 		const html = f.data;
 		if (ansiSciagnij == null) {
@@ -144,7 +146,7 @@ const writeToLog = (text) => {
 				fd.writeFileSync(`./info/${info.id}.json`, JSON.stringify(info));
 
 				console.log(`Pobieranie ID: ${info.id}`);
-				writeToLog(`Pobieranie ID: ${info.id}`);
+				writeToLog(logFile, `Pobieranie ID: ${info.id}`);
 
 				axiosPromise.push(
 					axios({
@@ -181,7 +183,7 @@ const writeToLog = (text) => {
 								});
 								writer.on("close", () => {
 									console.log("Pobrano ID: " + info.id);
-									writeToLog("Pobrano ID: " + info.id);
+									writeToLog(logFile, "Pobrano ID: " + info.id);
 									if (!error) {
 										resolve(true);
 									}
@@ -189,7 +191,7 @@ const writeToLog = (text) => {
 							});
 						} else {
 							console.log(`Błąd pobierania ID: ${info.id}`);
-							writeToLog(`Błąd pobierania ID: ${info.id}`);
+							writeToLog(logFile, `Błąd pobierania ID: ${info.id}`);
 						}
 					})
 				);
@@ -201,5 +203,5 @@ const writeToLog = (text) => {
 	}
 
 	console.log("Koniec");
-	writeToLog("Koniec");
+	writeToLog(logFile, "Koniec");
 })();
