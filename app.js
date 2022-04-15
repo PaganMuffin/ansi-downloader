@@ -2,6 +2,7 @@ const { default: axios } = require("axios");
 const cheerio = require("cheerio");
 const FormData = require("form-data");
 const fd = require("fs");
+const path = require("path");
 const fetchANSI = (page = 0) => {
 	return axios(
 		`http://animesub.info/szukaj.php?pOd1=1&pOd2=1&pOd3=2000&pSortuj=datad&od=${page}`,
@@ -29,14 +30,17 @@ const writeToLog = (log, text) => {
 };
 
 (async () => {
+	const infoFolder = path.join(__dirname, "info");
+	const subsFolder = path.join(__dirname, "subs");
+	const logFile = path.join(
+		__dirname,
+		`./[${new Date().toISOString()}]_log.txt`
+	);
 	//create folder subs and info
-	if (!fd.existsSync("./subs")) fd.mkdirSync("./subs");
+	if (!fd.existsSync(infoFolder)) fd.mkdirSync(infoFolder);
 
-	if (!fd.existsSync("./info")) fd.mkdirSync("./info");
+	if (!fd.existsSync(subsFolder)) fd.mkdirSync(subsFolder);
 
-	const logFile = `./[${new Date().toISOString()}]_log.txt`;
-
-	//create log file
 	if (!fd.existsSync(logFile)) fd.openSync(logFile, "w");
 
 	let start = 0;
