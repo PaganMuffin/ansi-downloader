@@ -31,10 +31,7 @@ const writeToLog = (log, text) => {
 (async () => {
 	const infoFolder = path.join(__dirname, "info");
 	const subsFolder = path.join(__dirname, "subs");
-	const logFile = path.join(
-		__dirname,
-		`./[${new Date().toISOString()}]_log.txt`
-	);
+	const logFile = path.join(__dirname,`./[${new Date().toISOString().replace(/:/g, '-')}]_log.txt`);
 	//create folder subs and info
 	if (!fd.existsSync(infoFolder)) fd.mkdirSync(infoFolder);
 
